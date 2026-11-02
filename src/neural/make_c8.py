@@ -4,7 +4,7 @@ outside the band, test .c8.npy equals the E5-small probability.
 Also writes c8/{dev,tune}_pce.npy, {dev,tune}.pkl.c8.npy and rivals.pkl.c8.npy
 when those member scores exist.
 usage: make_c8.py
-Set ALLOW_PARTIAL=1 to average whatever members are present (not V12).
+Set ALLOW_PARTIAL=1 to average whatever members are present.
 """
 import glob, os, sys
 import numpy as np

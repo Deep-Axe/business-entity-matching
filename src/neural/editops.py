@@ -63,36 +63,3 @@ def feats(a_name, a_addr, b_name, b_addr):
     return [exact, typo, ua_left, ub_left, ub_generic, ua_generic, reordered, dup, initial_edit, native,
             int(bool(Al)), int(bool(Bl)), int(bool(set(Al) & set(Bl))), b_empty, hr, added, removed, extra, street_j,
             fuzz.token_set_ratio(fold(a_name), fold(b_name)), len(A), len(B)]
-
-if __name__ == '__main__':
-    con = sqlite3.connect('file:artifacts/train_store_v2/records.sqlite3?mode=ro', uri=True)
-    X, P, Y, G = [], [], [], []
-    for split, pf, fleet in [('dev', 'enhanced_dev_probabilities', 'v2_gate0_dev'), ('tune', 'enhanced_full_tune_probabilities', 'v2_gate0_tune')]:
-        p = np.load(f'artifacts/improvement_v2/cpu/fit_gate0_100k_v1/{pf}.npy')
-        al = json.load(open(f'artifacts/improvement_v2/cpu/fit_gate0_100k_v1/{pf}.alignment.json'))
-        for s in al['shards']:
-            z = np.load(f"artifacts/improvement_v2/cloud/fleet_v1/collected/{fleet}/shards/{s['shard']}/features.npz")
-            ps = p[s['pair_start']:s['pair_end']]
-            for i in np.where((ps >= 0.05) & (ps < 0.97))[0]:
-                ref = str(z['reference_ids'][z['query_ids'][i]]); tgt = str(z['target_ids'][i])
-                an, aa = con.execute('select name,address from anchors where entity_id=?', (ref,)).fetchone()
-                bn, ba = con.execute('select name,address from records where entity_id=?', (tgt,)).fetchone()
-                X.append(feats(an, aa, bn, ba)); P.append(float(ps[i])); Y.append(int(z['y'][i])); G.append(ref)
-    X = np.array(X, float); P = np.array(P); Y = np.array(Y); G = np.array(G)
-    L = np.log(np.clip(P, 1e-6, 1 - 1e-6) / np.clip(1 - P, 1e-6, 1))
-    print('pairs', len(Y), 'positives', Y.sum())
-    print('AUC of p100k alone', round(roc_auc_score(Y, P), 4))
-    oof = np.zeros(len(Y)); oof_ops = np.zeros(len(Y))
-    for tr, te in GroupKFold(5).split(X, Y, G):
-        m = HistGradientBoostingClassifier(max_iter=300, learning_rate=0.05, max_leaf_nodes=15, l2_regularization=1.0,
-                                           categorical_features=[14]).fit(np.c_[X[tr], L[tr]], Y[tr])
-        oof[te] = m.predict_proba(np.c_[X[te], L[te]])[:, 1]
-        m2 = HistGradientBoostingClassifier(max_iter=300, learning_rate=0.05, max_leaf_nodes=15, l2_regularization=1.0,
-                                            categorical_features=[14]).fit(X[tr], Y[tr])
-        oof_ops[te] = m2.predict_proba(X[te])[:, 1]
-    print('AUC edit-ops only', round(roc_auc_score(Y, oof_ops), 4))
-    print('AUC edit-ops + p100k', round(roc_auc_score(Y, oof), 4))
-    for t in (0.5, 0.76, 0.9):
-        a = P >= 0.76; b = oof >= t
-        print(f'  threshold {t}: p100k accepts TP {int((a & (Y == 1)).sum())} FP {int((a & (Y == 0)).sum())} | '
-              f'new accepts TP {int((b & (Y == 1)).sum())} FP {int((b & (Y == 0)).sum())}')

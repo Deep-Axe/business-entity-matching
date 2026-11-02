@@ -108,9 +108,9 @@ def featurize_shards(store, index, references, output, gallery_fold=None, top_k=
     lexicon_json = (lexicon_path / "lexicon.json") if lexicon_path else None
     if lexicon_path is not None and not lexicon_json.exists():
         raise FileNotFoundError(lexicon_json)
-    use_deadline = lexicon_path is not None
-    if use_deadline:
-        from . import deadline_retrieval as retrieval_mod
+    use_gated = lexicon_path is not None
+    if use_gated:
+        from . import hybrid_retrieval as retrieval_mod
         from . import direct_features as direct_mod
         from .direct_features import CHANNELS
         channels = list(CHANNELS)
@@ -150,8 +150,8 @@ def featurize_shards(store, index, references, output, gallery_fold=None, top_k=
         write_json(output / "config.json", config)
     if initialize_only:
         return {"initialized": True, "config": config}
-    if use_deadline:
-        from .deadline_retrieval import retrievers
+    if use_gated:
+        from .hybrid_retrieval import retrievers
         from .direct_features import make_arrays
         base, extra = retrievers(index, lexicon_path, int(gate_terms), gallery_fold, store=store)
         retriever = None
@@ -183,7 +183,7 @@ def featurize_shards(store, index, references, output, gallery_fold=None, top_k=
                 raise ValueError("Reference and target fold differ; positives would be excluded")
             gold = gold_for(targets.db, ids) if not unlabeled else {eid: set() for eid in ids}
             input_sha = hashlib.sha256(json.dumps(group, sort_keys=True).encode()).hexdigest()
-            if use_deadline:
+            if use_gated:
                 arrays, timing = make_arrays(group, base, extra, targets, None if unlabeled else gold, top_k)
                 query_seconds = timing["query_seconds"]
                 lookup_seconds = timing["lookup_seconds"]

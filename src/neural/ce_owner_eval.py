@@ -9,7 +9,7 @@ sys.path.insert(0, 'tools')
 from v3_owner_assignment import winner
 
 C = ce_data(); tag = sys.argv[1]
-policy = json.load(open('artifacts/improvement_v3/structural_v1/owner_eval/policy.json'))['selected']
+policy = json.load(open(policy_json()))['selected']
 riv = pickle.load(open(C + 'rivals.pkl', 'rb')); rce = np.load(C + f'rivals.pkl.{tag}.npy')
 
 def lg(p):
@@ -29,7 +29,7 @@ def evaluate(sp, w, t, owner=True):
     for r, v in zip(riv, rs):
         if v >= t:
             claim[r[1]].append((r[0], v, r[9]))
-    P = f'artifacts/improvement_v2/cpu/prepared_gate0_full_{sp}_v1/'
+    P = ce_prep() + f'prepared_gate0_full_{sp}_v1/'
     refs = np.load(P + 'reference_ids.npy'); tc = dict(zip(refs, np.load(P + 'true_counts.npy')))
     tp = collections.Counter(); k = collections.Counter()
     for r, v in zip(rows, s):

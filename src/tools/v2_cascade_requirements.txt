@@ -1,6 +1,0 @@
-# Isolated optional GPU pilot; do not install into the frozen baseline environment.
-torch==2.5.1
-transformers==4.48.3
-sentencepiece==0.2.0
-numpy==1.26.4
-accelerate==1.3.0

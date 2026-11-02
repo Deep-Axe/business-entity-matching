@@ -20,7 +20,7 @@ from catboost import CatBoostClassifier
 
 from ber.context_features import CONTEXT_NAMES,context_matrix
 from ber.data import FIELDS,read_tsv,write_json,write_tsv
-from ber.deadline_retrieval import retrievers
+from ber.hybrid_retrieval import retrievers
 from ber.direct_features import CHANNELS,make_arrays
 from ber.disk_index import TargetStore
 from ber.features import FEATURE_NAMES
@@ -41,7 +41,7 @@ def signature(rows):
 
 def code_hashes():
     modules = {'base_features':'ber.features','context':'ber.context_features',
-        'retrieval':'ber.deadline_retrieval','direct_features':'ber.direct_features',
+        'retrieval':'ber.hybrid_retrieval','direct_features':'ber.direct_features',
         'text':'ber.text','v2_features':'v2_cpu_features'}
     return {key:file_hash(importlib.import_module(value).__file__) for key,value in modules.items()}
 

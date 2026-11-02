@@ -1,12 +1,7 @@
-"""Resolve v1 targets claimed by several S1 references using name/address evidence.
+"""Name/address features for exclusive assignment among several source-1 claimants.
 
-Only targets that the v1 submission assigns to more than one S1 change; every other
-prediction is kept, and the v1 candidate file is reused unchanged (the new matches
-are a subset of the old ones). Scores come from text only: v1 saved no probabilities.
-
-  check  -- fit the claimant scorer and choose the keep/abstain rule on training
-            labels, using same-core-name rivals from the full training S1 file.
-  apply  -- apply the frozen rule to the v1 test output and write a new output folder.
+  check  -- fit the claimant scorer and choose the keep/abstain rule on training labels.
+  apply  -- apply the frozen rule to a baseline match file and write a new output folder.
 """
 import argparse
 import hashlib
@@ -23,9 +18,10 @@ from anyascii import anyascii
 from rapidfuzz import fuzz
 from sklearn.linear_model import LogisticRegression
 
-ROOT = Path(__file__).resolve().parents[1]
-DATA = ROOT / "6ab10eb3b23ba_student_resource/student_resource/dataset"
-V1 = ROOT / "artifacts/duf-fel_full_output_v1"
+ROOT = Path(__file__).resolve().parents[2]
+DATA = Path(os.environ.get("BER_DATA", ROOT / "data"))
+STORE = Path(os.environ.get("BER_STORE", ROOT / "work"))
+BASELINE = Path(os.environ.get("BER_BASELINE", ROOT / "work" / "baseline"))
 SEED = 20260926
 
 LEGAL = {"pvt": "private", "private": "private", "ltd": "limited", "limited": "limited",
@@ -135,7 +131,7 @@ def check(output):
             addresses.append(address)
             index[entity] = i
             groups.setdefault((country, core_key(name)), []).append(i)
-    store = sqlite3.connect(f"file:{ROOT}/artifacts/train_store_v2/records.sqlite3?mode=ro", uri=True)
+    store = sqlite3.connect(f"file:{STORE}/train_store_v2/records.sqlite3?mode=ro", uri=True)
     rng = random.Random(SEED)
     max_row = store.execute("select max(row_id) from records").fetchone()[0]
     rows = rng.sample(range(1, max_row + 1), 120000)
@@ -213,7 +209,7 @@ def apply(check_report, output):
     keep_floor, margin = frozen["selected_on_tune"]["keep_floor"], frozen["selected_on_tune"]["margin"]
     rows = []
     claims = {}
-    with open(V1 / "matching_results.tsv") as handle:
+    with open(BASELINE / "matching_results.tsv") as handle:
         header = handle.readline()
         for i, line in enumerate(handle):
             reference, _, matched = line.rstrip("\n").partition("\t")
@@ -231,9 +227,9 @@ def apply(check_report, output):
             if i in needed:
                 entity, name, address, country = line.rstrip("\n").split("\t")
                 if entity != rows[i][0]:
-                    raise ValueError("Reference order differs from v1 output")
+                    raise ValueError("Reference order differs from baseline output")
                 s1[i] = (prep_name(name), prep_address(address), country)
-    store = sqlite3.connect(f"file:{ROOT}/artifacts/test_store_v2/records.sqlite3?mode=ro", uri=True)
+    store = sqlite3.connect(f"file:{STORE}/test_store_v2/records.sqlite3?mode=ro", uri=True)
     removed = {}
     stats = {"conflicting_targets": len(conflicts), "conflicting_edges": 0, "kept": 0, "abstained": 0,
              "removed_edges": 0, "by_country": {}}
@@ -261,7 +257,7 @@ def apply(check_report, output):
         for i, (reference, targets) in enumerate(rows):
             drop = removed.get(i, ())
             handle.write(reference + "\t" + ",".join(t for t in targets if t not in drop) + "\n")
-    os.link(V1 / "candidate_pairs.tsv", output / "output/candidate_pairs.tsv")
+    os.link(BASELINE / "candidate_pairs.tsv", output / "output/candidate_pairs.tsv")
     stats["predicted_edges_before"] = sum(len(t) for _, t in rows)
     stats["predicted_edges_after"] = stats["predicted_edges_before"] - stats["removed_edges"]
     stats["frozen_rule"] = {"check_report": str(check_report), "keep_floor": keep_floor, "margin": margin}

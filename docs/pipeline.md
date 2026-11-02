@@ -79,7 +79,7 @@ Exact-key channels (India / US identifiers) are built by `src/neural/keych_test_
 ## 6. Exclusive assignment
 
 ```bash
-python src/neural/test_submit.py --w 0 --t 0.75 \
+python src/neural/assign.py --w 0 --t 0.75 \
   --score stack_c8_nocty_nf2 \
   --country-t France=0.9 \
   --extra-glob 'work/ce/dense/*.pkl;work/ce/keych/*.pkl' \

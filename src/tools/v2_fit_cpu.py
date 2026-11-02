@@ -214,11 +214,11 @@ def fit(train, tune, full_tune, full_dev, output, threads=3, iterations=600,
         np.save(output / 'frozen_dev_probabilities.npy', frozen_probability)
         reports['frozen'] = dict(threshold=.74, dev=frozen_report, model_sha256=file_hash(frozen_path),
                                  path=str(frozen_path), features=int(nfeat),
-                                 note='optional historical comparison; not used for V12 predictions')
+                                 note='optional historical comparison; unused by the published cascade')
         del baseline
     else:
         reports['frozen'] = dict(skipped=True,
-                                 reason='historical 50k baseline comparison is optional and unused by V12')
+                                 reason='historical baseline comparison is optional and unused by the published cascade')
     trained_scores = {}
     for variant, names in (('control', BASE_NAMES), ('enhanced', ALL_NAMES)):
         if variant not in variants:
@@ -287,7 +287,7 @@ if __name__ == '__main__':
     fitting.add_argument('--iterations', type=int, default=600)
     fitting.add_argument('--minimum-available-gib', type=float, default=3.5)
     fitting.add_argument('--frozen-model', default=None,
-                        help='optional historical CatBoost for a paired-delta report; unused by V12')
+                        help='optional historical CatBoost for a paired-delta report')
     fitting.add_argument('--quantized-train-directory', help='Root containing checksum-bound control/enhanced quantized pool folders')
     fitting.add_argument('--variants', nargs='+', choices=('control', 'enhanced'), default=['control', 'enhanced'])
     args = vars(parser.parse_args())

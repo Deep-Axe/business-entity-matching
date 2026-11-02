@@ -1,7 +1,7 @@
-"""Explicit experimental rare-term gates; the frozen retriever is untouched.
+"""BM25 retrieval with an optional rare-term gate and learned query expansion.
 
-A positive gate_terms changes candidate eligibility and requires new validation.
-Zero retains the frozen gate semantics. Scoring terms are never truncated further.
+`gate_terms=0` keeps the default gate. A positive value restricts eligibility to
+that many rare terms. Scoring terms are never truncated further.
 """
 
 import tantivy
@@ -10,7 +10,7 @@ from .disk_index import DiskRetriever
 from .expansion import ExpansionRetriever
 
 
-class DeadlineRetriever(DiskRetriever):
+class GatedRetriever(DiskRetriever):
     def __init__(self, *args, gate_terms=0, **kwargs):
         if gate_terms < 0:
             raise ValueError("gate_terms must be nonnegative")
@@ -37,10 +37,11 @@ def retrievers(index, lexicon, gate_terms=0, fold=None, store=None):
         from .wand_retrieval import WandRetriever
         base = WandRetriever(index, store, fold)
     else:
-        base = DeadlineRetriever(index, transliteration=True, fold=fold,
-                                 max_df_ratio=.01, frequency_mode="gate", gate_terms=gate_terms)
+        base = GatedRetriever(index, transliteration=True, fold=fold,
+                              max_df_ratio=.01, frequency_mode="gate", gate_terms=gate_terms)
     extra = ExpansionRetriever(index, lexicon, fold=fold,
                                max_df_ratio=.01, frequency_mode="gate")
-    extra.base = DeadlineRetriever(index, channels=["ascii_words"], fold=fold,
-                                  max_df_ratio=.01, frequency_mode="gate", gate_terms=max(1, gate_terms) if gate_terms == -1 else gate_terms)
+    extra.base = GatedRetriever(index, channels=["ascii_words"], fold=fold,
+                                max_df_ratio=.01, frequency_mode="gate",
+                                gate_terms=max(1, gate_terms) if gate_terms == -1 else gate_terms)
     return base, extra

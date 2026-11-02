@@ -85,7 +85,12 @@ pip install -e .
 source scripts/env.sh
 ```
 
-Point `BER_DATA` at a `dataset/` directory with `train/` and `test/` TSVs (`source_1`, `source_2`, and labels where you have them). Cross-encoder training and scoring need a second environment from `requirements.gpu.txt` (PyTorch 2.5, Transformers 4.48, `huggingface-hub`).
+This GitHub repo is enough to recreate the matcher. You still need two things that are not in git:
+
+1. **Dataset.** Point `BER_DATA` at a `dataset/` directory with `train/` and `test/` TSVs (`source_1`, `source_2`, and labels where you have them).
+2. **Encoder weights.** `python scripts/fetch_encoders.py` downloads the eight `model.pt` files from Hugging Face into `model/encoders/` (~8 GB). The CatBoost gate and assignment policy are already in `model/`.
+
+Cross-encoder training and scoring need a second environment from `requirements.gpu.txt` (PyTorch 2.5, Transformers 4.48, `huggingface-hub`). Working files (SQLite store, BM25 index, pair pickles, scores) are written under `work/` and can be rebuilt from the dataset.
 
 Useful environment variables, all set by `scripts/env.sh`:
 
@@ -117,7 +122,7 @@ Encoder + stack + assignment (GPU for scoring, CPU for HistGB):
 ```bash
 python src/neural/ce_score.py --tag c8
 NAMEF=1 NAMEF2=1 NOCTY=1 python src/neural/stack_eval.py c8 --test
-python src/neural/test_submit.py --w 0 --t 0.75 --score stack_c8_nocty_nf2 \
+python src/neural/assign.py --w 0 --t 0.75 --score stack_c8_nocty_nf2 \
   --country-t France=0.9 --extra-glob 'work/ce/dense/*.pkl' --extra-t 0.9 \
   --strict --out work/matches
 ```

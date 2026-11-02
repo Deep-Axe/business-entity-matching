@@ -9,7 +9,8 @@ import numpy as np
 sys.path.insert(0, 'src/neural')
 from name_unique_lib import core
 
-DS = '6ab10eb3b23ba_student_resource/student_resource/dataset/train/'; A = 'artifacts/improvement_v2/cpu/'
+DS = dataset() + 'train/'
+A = ce_prep()
 C = ce_data(); OUT = C + 'big_mix/'; os.makedirs(OUT, exist_ok=True)
 N_OWN, CAP_NAME, CAP_ADDR = int(os.environ.get('N_OWN', 250000)), 4, 3
 rng = np.random.default_rng(41)

@@ -1,10 +1,10 @@
 """Gather all test candidate pairs with p100k>=0.01 plus text, one pickle per partition.
 
 Inputs, in order:
-  BER_QUEUE       controller queue.json with complete[id].directory / .references
+  BER_QUEUE       queue.json with complete[id].directory / .references
   BER_TEST_PARTS  glob of v2_run_pipeline output directories (each has shards/ and manifest.json)
-  default         $BER_V2/inference/submission_controller_v1/queue.json
-                  or $BER_V2/inference/full_test_100k_p*_v1
+  default         $BER_V2/inference/queue.json
+                  or $BER_V2/inference/test_p*_v1
 """
 import sys, os
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -26,12 +26,12 @@ def lookup(table, ids):
 
 def partitions():
     qf = os.environ.get('BER_QUEUE', '')
-    default_q = v2_dir() + 'inference/submission_controller_v1/queue.json'
+    default_q = v2_dir() + 'inference/queue.json'
     if not qf and os.path.exists(default_q):
         qf = default_q
     if qf:
         return [(k, v) for k, v in sorted(json.load(open(qf))['complete'].items(), key=lambda x: int(x[0]))]
-    globp = os.environ.get('BER_TEST_PARTS', v2_dir() + 'inference/full_test_100k_p*_v1')
+    globp = os.environ.get('BER_TEST_PARTS', v2_dir() + 'inference/test_p*_v1')
     items = []
     for d in sorted(glob.glob(globp)):
         man = Path(d) / 'manifest.json'

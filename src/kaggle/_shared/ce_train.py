@@ -4,7 +4,7 @@ import numpy as np, torch
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
 
 ap = argparse.ArgumentParser()
-ap.add_argument('--model', default='artifacts/improvement_v3/transfer_pilot_v1/models/e5')
+ap.add_argument('--model', default=os.environ.get('BER_E5', 'intfloat/multilingual-e5-small'))
 ap.add_argument('--tag', default='e5_pilot')
 ap.add_argument('--max-train', type=int, default=1_200_000)
 ap.add_argument('--min-avail-gb', type=float, default=3.0)
@@ -26,7 +26,7 @@ def _slash(p):
 
 D = _slash(os.environ.get('CE_DATA', 'work/ce'))
 OUT = _slash(os.environ.get('CE_OUT', D)) + args.tag + '/'
-PREP = _slash(os.environ.get('CE_PREP', 'artifacts/improvement_v2/cpu'))
+PREP = _slash(os.environ.get('CE_PREP', 'model/prep'))
 os.makedirs(OUT, exist_ok=True)
 torch.manual_seed(args.seed); rng = np.random.default_rng(args.seed)
 _rev = {} if os.path.isdir(args.model) else {

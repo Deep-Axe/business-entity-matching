@@ -1,10 +1,12 @@
-"""Build matching_results.tsv from test pair scores: blend CE with p100k, threshold, frozen owner assignment.
-usage: test_submit.py --tag TAG --w W --t T --out DIR   (--w 0 --t 0.76 must reproduce the 0.958 file)"""
+"""Write matching_results.tsv from scored candidate pairs and exclusive assignment.
+
+usage: assign.py --w W --t T --out DIR
+"""
 import sys, os
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from ber_paths import (ce_data, dataset, expected_test_partitions, expand_route_globs,
                        part_pkl_id, policy_json, text_scorer_json)
-import argparse, glob, pickle, json, sys, os, csv, time, hashlib
+import argparse, glob, pickle, json, csv, time, hashlib
 from pathlib import Path
 import numpy as np
 _here = os.path.dirname(os.path.abspath(__file__))
@@ -24,7 +26,7 @@ ap.add_argument('--extra-score', default='', help='score suffix for the extra pi
 ap.add_argument('--extra-t', type=float, default=0.9)
 ap.add_argument('--extra-country-t', default='', help='comma list COUNTRY=THRESHOLD for the extra pickles')
 ap.add_argument('--strict', action='store_true',
-                help='fail if any route, expected partition, or stack score is missing (V12 replay)')
+                help='fail if any route, expected partition, or stack score is missing')
 args = ap.parse_args()
 override = dict(x.split('=') for x in args.country_score.split(',') if x)
 country_t = {k: float(v) for k, v in (x.split('=') for x in args.country_t.split(',') if x)}

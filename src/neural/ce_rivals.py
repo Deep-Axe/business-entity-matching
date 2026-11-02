@@ -10,8 +10,7 @@ from v3_owner_assignment import load_text, text_logit
 
 C = ce_data()
 S = sqlite3.connect(f'file:{store("train")}?mode=ro', uri=True)
-cands = [os.environ.get('BER_RIVALS', ''), str(owner_dir() / 'rivals.sqlite3'),
-         'artifacts/improvement_v3/structural_v1/owner_eval/rivals.sqlite3']
+cands = [os.environ.get('BER_RIVALS', ''), str(owner_dir() / 'rivals.sqlite3')]
 db = next((p for p in cands if p and os.path.exists(p)), '')
 
 def lookup(table, ids):

@@ -8,7 +8,7 @@
     "margin": 0.1
   },
   "model_sha256": "aa236b4c971c83b7226edfe9e39d4f80b14bcee4a0188f7ed46cb996f6e62a49",
-  "text_scorer_sha256": "5fbbe491774d7cffa21135de6fffc80bbe1803d859f694decfd02e3f2c6868b3",
+  "text_scorer_sha256": "c594d811fa03af06cc685f10f1734bd6256841767697de0d1030c466527f9ef1",
   "tune_macro_f05": 0.9743807550507845,
   "selection_metric": "Full owner-set macroF0.5 on all3000 focal tune owners, including zero-match owners",
   "rival_scope": "chosen",

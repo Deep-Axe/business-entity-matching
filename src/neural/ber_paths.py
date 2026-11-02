@@ -1,19 +1,19 @@
-"""Resolvable locations for a clean unpack. No laptop-absolute paths.
+"""Resolvable locations. No machine-absolute paths.
 
-Set these before running any script (defaults assume the unzip root is cwd):
+Set these before running any script (defaults assume the repo root is cwd):
 
-  BER_ROOT     unpack root (default: current working directory)
-  BER_DATA     competition dataset/ folder (train/ and test/ TSVs)
+  BER_ROOT     repository root (default: current working directory)
+  BER_DATA     dataset folder with train/ and test/ TSVs
   CE_DATA      working directory for pair pickles and scores (default: $BER_ROOT/work/ce)
-  CE_OUT       local retrain checkpoint parent (default: same as CE_DATA; bundled weights are BER_WEIGHTS)
-  CE_PREP      prepared_gate0_full_{dev,tune}_v1 parent (default: $BER_ROOT/work/prep)
+  CE_OUT       local retrain checkpoint parent (default: same as CE_DATA; published weights are BER_WEIGHTS)
+  CE_PREP      prepared_gate0_full_{dev,tune}_v1 parent (default: model/prep when present)
   BER_OWNER    folder with policy.json and text_scorer.json
   BER_WEIGHTS  folder with encoder model.pt files (e5_cont1300k/, kA/ … kG/)
   BER_HF_REPO  Hugging Face repo with those files (default: DeeAxe/business-entity-matching-encoders)
   BER_E5       HuggingFace id or local dir for multilingual-e5-small
   BER_E5_BASE  HuggingFace id or local dir for multilingual-e5-base
   BER_E5_REVISION / BER_E5_BASE_REVISION  immutable Hub commits for those ids
-  BER_STORE    parent of {train,test}_store_v2 (default: $BER_ROOT/artifacts)
+  BER_STORE    parent of {train,test}_store_v2 (default: $BER_ROOT/work)
 """
 from __future__ import annotations
 import glob
@@ -65,18 +65,17 @@ def dataset() -> str:
 
 
 def store(split: str) -> str:
-    parent = Path(os.environ.get('BER_STORE', root() / 'artifacts'))
+    parent = Path(os.environ.get('BER_STORE', root() / 'work'))
     return str(parent / f'{split}_store_v2' / 'records.sqlite3')
 
 
 def v2_dir() -> str:
-    return _slash(os.environ.get('BER_V2', root() / 'artifacts' / 'improvement_v2'))
+    return _slash(os.environ.get('BER_V2', root() / 'work' / 'v2'))
 
 
 E5_SMALL_ID = 'intfloat/multilingual-e5-small'
 E5_BASE_ID = 'intfloat/multilingual-e5-base'
-# Hub HEADs present when V12 was scored (April 2026 eval-card commits).
-# Tokenizer/config/weights are unchanged from earlier content commits.
+# Pinned Hub commits for the E5 bases used at scoring time.
 E5_SMALL_REVISION = '614241f622f53c4eeff9890bdc4f31cfecc418b3'
 E5_BASE_REVISION = 'd128750597153bb5987e10b1c3493a34e5a4502a'
 
@@ -235,7 +234,7 @@ def expected_test_partitions() -> set[int]:
         return set(range(count))
     counts = []
     queue = os.environ.get('BER_QUEUE', '')
-    default_queue = Path(v2_dir()) / 'inference' / 'submission_controller_v1' / 'queue.json'
+    default_queue = Path(v2_dir()) / 'inference' / 'queue.json'
     queue_path = Path(queue) if queue else (default_queue if default_queue.exists() else None)
     if queue_path and queue_path.exists():
         count = _count_from_queue(queue_path)

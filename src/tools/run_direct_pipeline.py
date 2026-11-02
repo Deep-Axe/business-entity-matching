@@ -22,7 +22,7 @@ from catboost import CatBoostClassifier
 
 from ber.context_features import model_matrix
 from ber.data import FIELDS, read_tsv, write_json, write_tsv
-from ber.deadline_retrieval import retrievers
+from ber.hybrid_retrieval import retrievers
 from ber.direct_features import CHANNELS, make_arrays
 from ber.disk_index import TargetStore
 from ber.features import FEATURE_NAMES
@@ -158,7 +158,7 @@ def run(index, store, references, lexicon, output, gate_terms=0, mode="predict",
         references_sha256=file_hash(references), lexicon_sha256=file_hash(Path(lexicon) / "lexicon.json"),
         index_config_sha256=file_hash(Path(index) / "config.json"), external_data_used=False,
         feature_names=FEATURE_NAMES, feature_code_sha256=file_hash(importlib.import_module("ber.features").__file__),
-        retrieval_code_sha256=file_hash(importlib.import_module("ber.deadline_retrieval").__file__),
+        retrieval_code_sha256=file_hash(importlib.import_module("ber.hybrid_retrieval").__file__),
         direct_feature_code_sha256=file_hash(importlib.import_module("ber.direct_features").__file__),
         wand_code_sha256=file_hash(importlib.import_module("ber.wand_retrieval").__file__) if gate_terms == -1 else None,
         runner_code_sha256=file_hash(__file__), max_df_ratio=.01, frequency_mode="gate", country_block=True)

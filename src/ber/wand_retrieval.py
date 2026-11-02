@@ -60,8 +60,8 @@ class WandRetriever(DiskRetriever):
         super().__init__(index, transliteration=True, fold=fold, max_df_ratio=.01, frequency_mode="gate")
         self.codes, self.eligibility_keys = eligibility(store)
         self.allowed = {}
-        from .deadline_retrieval import DeadlineRetriever
-        self.fallback = DeadlineRetriever(index, transliteration=True, fold=fold,
+        from .hybrid_retrieval import GatedRetriever
+        self.fallback = GatedRetriever(index, transliteration=True, fold=fold,
                                           max_df_ratio=.01, frequency_mode="gate", gate_terms=1)
 
     def term_clauses(self, field, terms, boost=1.):

@@ -1,22 +1,21 @@
 """Build cross-encoder text datasets: train pickles plus dev/tune (p100k>=0.01 only).
 
-Default layout (original 100k/200k collection):
+Labeled v2_run_pipeline outputs (pair_ids.npz + probabilities.npy):
+  BER_TRAIN_INFER / BER_DEV_INFER / BER_TUNE_INFER  partition directories
+
+Optional feature-shard layout:
   BER_TRAIN_SHARDS  glob of features.npz
   BER_GATE_DIR      directory with enhanced_{dev,full_tune}_probabilities.npy + alignment.json
   BER_DEV_FLEET / BER_TUNE_FLEET  collected feature-shard parents
-
-Local labeled v2_run_pipeline outputs (pair_ids.npz + probabilities.npy):
-  BER_TRAIN_INFER / BER_DEV_INFER / BER_TUNE_INFER  partition directories
 """
 import sys, os
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from ber_paths import ce_data, store, v2_dir
+from ber_paths import ce_data, store
 import json, sqlite3, glob, pickle, time
 from pathlib import Path
 import numpy as np
 from sklearn.ensemble import HistGradientBoostingClassifier
 
-A = v2_dir()
 OUT = ce_data()
 os.makedirs(OUT, exist_ok=True)
 con = sqlite3.connect(f'file:{store("train")}?mode=ro', uri=True)
@@ -83,16 +82,18 @@ if dev_i and tune_i:
 def fx(z):
     return np.c_[z['X'], z['channel_scores'], z['channel_ranks'].astype(np.float32)]
 
-train_glob = os.environ.get('BER_TRAIN_SHARDS', A + 'cloud/fleet_v1/collected/v2_gate0_train200k_p*/shards/*/features.npz')
-gate = os.environ.get('BER_GATE_DIR', A + 'cpu/fit_gate0_100k_v1')
+train_glob = os.environ.get('BER_TRAIN_SHARDS', '')
+gate = os.environ.get('BER_GATE_DIR', '')
+dev_fleet = os.environ.get('BER_DEV_FLEET', '')
+tune_fleet = os.environ.get('BER_TUNE_FLEET', '')
+if not (train_glob and gate and dev_fleet and tune_fleet):
+    raise SystemExit('no training feature shards; set BER_TRAIN_INFER/BER_DEV_INFER/BER_TUNE_INFER or BER_TRAIN_SHARDS + BER_GATE_DIR + BER_DEV_FLEET + BER_TUNE_FLEET')
 if not gate.endswith(('/', '\\')):
     gate += os.sep
-dev_fleet = os.environ.get('BER_DEV_FLEET', A + 'cloud/fleet_v1/collected/v2_gate0_dev')
-tune_fleet = os.environ.get('BER_TUNE_FLEET', A + 'cloud/fleet_v1/collected/v2_gate0_tune')
 train_shards = sorted(glob.glob(train_glob))
 print('train shards', len(train_shards), flush=True)
 if not train_shards:
-    raise SystemExit('no training feature shards; set BER_TRAIN_SHARDS or BER_TRAIN_INFER/BER_DEV_INFER/BER_TUNE_INFER')
+    raise SystemExit('no training feature shards matched BER_TRAIN_SHARDS')
 
 Xs, ys = [], []
 for f in train_shards[:40]:

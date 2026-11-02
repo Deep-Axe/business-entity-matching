@@ -4,7 +4,7 @@ import numpy as np, torch
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
 
 ap = argparse.ArgumentParser()
-ap.add_argument('--model', default='artifacts/improvement_v3/transfer_pilot_v1/models/e5')
+ap.add_argument('--model', default=os.environ.get('BER_E5', 'intfloat/multilingual-e5-small'))
 ap.add_argument('--weights', required=True)
 ap.add_argument('--tag', required=True)
 ap.add_argument('--maxlen', type=int, default=128)

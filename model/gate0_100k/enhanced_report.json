@@ -127,7 +127,7 @@
     "labels_sha256": "68e7aa05e223c3481eb92a10f64d3bb6be49abef48c2d0124cb517671e7edda3",
     "quantized_sha256": "3f05e422406321a32b77f63ff2212ce0312154ea1aacb2f9abb8601820a87908",
     "borders_sha256": "51a0339233e76116921f1c9cdd2ac5f94c131bfb3b55527c3c7ea0360878dad0",
-    "prepared": "/home/deep/Documents/amazon_ml_challenge/artifacts/improvement_v2/cpu/prepared_gate0_train_100k_v1",
+    "prepared": "work/v2/cpu/prepared_gate0_train_100k_v1",
     "cpu_affinity": [
       0,
       1

@@ -28,6 +28,6 @@ def run(files, f):
         np.save(out + '.tmp.npy', F); os.replace(out + '.tmp.npy', out); print(os.path.basename(p), F.shape, flush=True)
 
 if '--test' in sys.argv:
-    run(sorted(glob.glob(C + 'test/part_*.pkl')), freq('artifacts/test_store_v2/records.sqlite3'))
+    run(sorted(glob.glob(C + 'test/part_*.pkl')), freq(store('test')))
 else:
-    run([C + 'dev.pkl', C + 'tune.pkl', C + 'rivals.pkl'], freq('artifacts/train_store_v2/records.sqlite3'))
+    run([C + 'dev.pkl', C + 'tune.pkl', C + 'rivals.pkl'], freq(store('train')))

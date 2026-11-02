@@ -28,7 +28,7 @@
   "training_owners": 10000,
   "training_pairs": 94149,
   "training_fold": "train",
-  "feature_code_sha256": "2556534045e4572e29010629a028fbc1eeba5a8d060fe881ed2df6450fb39394",
+  "feature_code_sha256": "0d7d8f9d5146c78d0421f3bbf7bfdd0d780d5ecfe4714c8208e5ff78015908b2",
   "data_sha256": "36c84ea58c4a47a30f1d73039fb7bbba776ed6996685843dcc070755b1ccff67",
   "label_selection": "Only transfer-pilot train-fold pairs; no tune/dev labels or old v1 weights",
   "score_semantics": "Ranking logit on sampled hard negatives; NOT a calibrated posterior",

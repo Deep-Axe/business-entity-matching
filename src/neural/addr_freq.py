@@ -36,6 +36,6 @@ def run(files, fa, fr):
         F = np.array(F, np.float32); np.save(out + '.tmp.npy', F); os.replace(out + '.tmp.npy', out); print(os.path.basename(p), F.shape, flush=True)
 
 if '--test' in sys.argv:
-    s = 'artifacts/test_store_v2/records.sqlite3'; run(sorted(glob.glob(C + 'test/part_*.pkl')), freq(s, 'anchors'), freq(s, 'records'))
+    s = store('test'); run(sorted(glob.glob(C + 'test/part_*.pkl')), freq(s, 'anchors'), freq(s, 'records'))
 else:
-    s = 'artifacts/train_store_v2/records.sqlite3'; run([C + 'dev.pkl', C + 'tune.pkl', C + 'rivals.pkl'], freq(s, 'anchors'), freq(s, 'records'))
+    s = store('train'); run([C + 'dev.pkl', C + 'tune.pkl', C + 'rivals.pkl'], freq(s, 'anchors'), freq(s, 'records'))
