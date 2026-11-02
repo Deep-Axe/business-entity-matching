@@ -1,0 +1,10 @@
+# GPU environment: cross-encoder training/scoring and dense retrieval.
+# This torch build expects numpy 1.26; keep it separate from the CPU env.
+
+torch==2.5.1
+transformers==4.48.3
+tokenizers==0.21.4
+sentencepiece==0.2.0
+safetensors==0.8.0
+huggingface-hub==0.36.2
+numpy==1.26.4

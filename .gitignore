@@ -1,0 +1,19 @@
+.venv/
+.venv-gpu/
+.env
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+catboost_info/
+work/
+data/
+*.tsv
+*.zip
+
+# Fine-tuned encoder weights live on Hugging Face, not in git.
+model/encoders/**/model.pt
+model/encoders/**/*.safetensors
+model/encoders/**/*.bin

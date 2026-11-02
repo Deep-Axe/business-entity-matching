@@ -1,0 +1,22 @@
+{
+  "threads": 3,
+  "iterations": 600,
+  "depth": 8,
+  "learning_rate": 0.07,
+  "random_seed": 2026,
+  "variants": [
+    "enhanced"
+  ],
+  "quantized_train_directory": "artifacts/improvement_v2/cpu/quantized_gate0_100k_v1",
+  "tune_fold_role": "cohort identity/separation only; no feature use or comparable tune-fold scores",
+  "training_references": 100000,
+  "manifests": {
+    "train": "/home/deep/Documents/amazon_ml_challenge/artifacts/improvement_v2/cpu/prepared_gate0_train_100k_v1",
+    "tune": "/home/deep/Documents/amazon_ml_challenge/artifacts/improvement_v2/cpu/prepared_tune_fold",
+    "full_tune": "/home/deep/Documents/amazon_ml_challenge/artifacts/improvement_v2/cpu/prepared_gate0_full_tune_v1",
+    "dev": "/home/deep/Documents/amazon_ml_challenge/artifacts/improvement_v2/cpu/prepared_gate0_full_dev_v1"
+  },
+  "external_data_used": false,
+  "audit_used": false,
+  "threshold_selection": "full_tune only"
+}

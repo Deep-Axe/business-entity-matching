@@ -1,0 +1,36 @@
+{
+  "complete": true,
+  "columns": [
+    "name_set",
+    "name_sort",
+    "name_exact",
+    "legal_agree",
+    "addr_set",
+    "addr_jaccard",
+    "target_addr_missing",
+    "house_in_target",
+    "numbers_conflict",
+    "numbers_missing"
+  ],
+  "coefficients": [
+    0.8647812539028882,
+    5.701612151942866,
+    0.4583516293996131,
+    0.1950375149068177,
+    10.933268227873029,
+    -1.1338519698364753,
+    8.460872413777478,
+    3.556478862132201,
+    -1.300057796904999,
+    1.9070856819017101
+  ],
+  "intercept": -15.51514706005216,
+  "training_owners": 10000,
+  "training_pairs": 94149,
+  "training_fold": "train",
+  "feature_code_sha256": "2556534045e4572e29010629a028fbc1eeba5a8d060fe881ed2df6450fb39394",
+  "data_sha256": "36c84ea58c4a47a30f1d73039fb7bbba776ed6996685843dcc070755b1ccff67",
+  "label_selection": "Only transfer-pilot train-fold pairs; no tune/dev labels or old v1 weights",
+  "score_semantics": "Ranking logit on sampled hard negatives; NOT a calibrated posterior",
+  "base100k_model_sha256": "aa236b4c971c83b7226edfe9e39d4f80b14bcee4a0188f7ed46cb996f6e62a49"
+}

@@ -1,0 +1,547 @@
+{
+  "threshold": 0.76,
+  "full_tune": {
+    "macro_f05": 0.9727213654409104,
+    "pair_precision": 0.9932042833607908,
+    "pair_recall": 0.9233272709868862,
+    "predicted_pairs": 9712,
+    "true_positive_pairs": 9646,
+    "singleton_false_merge_rate": 0.012578616352201259,
+    "by_country": {
+      "India": {
+        "references": 1161,
+        "macro_f05": 0.9719158325733165
+      },
+      "US": {
+        "references": 1839,
+        "macro_f05": 0.9732299155547094
+      }
+    }
+  },
+  "dev": {
+    "macro_f05": 0.969362172792991,
+    "pair_precision": 0.9918041184304887,
+    "pair_recall": 0.9326589595375723,
+    "predicted_pairs": 9761,
+    "true_positive_pairs": 9681,
+    "singleton_false_merge_rate": 0.037037037037037035,
+    "by_country": {
+      "India": {
+        "references": 1206,
+        "macro_f05": 0.9585870676944486
+      },
+      "US": {
+        "references": 1794,
+        "macro_f05": 0.9766056380933489
+      }
+    }
+  },
+  "training_pool": "quantized_fit",
+  "memory_preflight_gib": 3.5,
+  "quantized_provenance": {
+    "complete": true,
+    "variant": "enhanced",
+    "names": [
+      "name_ratio",
+      "name_partial",
+      "name_token_sort",
+      "name_token_set",
+      "name_wratio",
+      "name_jaro_winkler",
+      "name_jaccard",
+      "name_overlap",
+      "name_trigram_jaccard",
+      "ascii_name_ratio",
+      "bare_name_ratio",
+      "name_exact",
+      "address_ratio",
+      "address_token_sort",
+      "address_token_set",
+      "address_jaccard",
+      "address_overlap",
+      "address_trigram_jaccard",
+      "ascii_address_ratio",
+      "address_exact",
+      "number_jaccard",
+      "both_have_numbers",
+      "disjoint_numbers",
+      "reference_address_missing",
+      "target_address_missing",
+      "name_length_ratio",
+      "address_length_ratio",
+      "target_is_s2",
+      "reference_name_nonascii",
+      "target_name_nonascii",
+      "retrieval_channels",
+      "best_relative_score",
+      "best_reciprocal_rank",
+      "name_word_retrieval",
+      "name_gram_retrieval",
+      "address_retrieval",
+      "combined_retrieval",
+      "ascii_retrieval",
+      "context_log_candidates",
+      "context_log_near_names",
+      "context_log_exact_names",
+      "context_log_strong_addresses",
+      "context_name_minus_best",
+      "context_address_minus_best",
+      "context_log_joint_strong_evidence",
+      "context_log_missing_address_near_names",
+      "v2_name_weighted_jaccard",
+      "v2_name_reference_coverage",
+      "v2_name_target_coverage",
+      "v2_name_max_shared_idf",
+      "v2_name_max_reference_only_idf",
+      "v2_name_max_target_only_idf",
+      "v2_ascii_name_weighted_jaccard",
+      "v2_ascii_name_reference_coverage",
+      "v2_ascii_name_target_coverage",
+      "v2_ascii_name_max_shared_idf",
+      "v2_ascii_name_max_reference_only_idf",
+      "v2_ascii_name_max_target_only_idf",
+      "v2_address_weighted_jaccard",
+      "v2_address_reference_coverage",
+      "v2_address_target_coverage",
+      "v2_address_max_shared_idf",
+      "v2_address_max_reference_only_idf",
+      "v2_address_max_target_only_idf",
+      "v2_number_jaccard",
+      "v2_number_reference_coverage",
+      "v2_number_target_coverage",
+      "v2_short_number_overlap",
+      "v2_short_number_disjoint",
+      "v2_long_number_overlap",
+      "v2_long_number_disjoint",
+      "v2_number_one_side_missing",
+      "v2_suffix_stripped_ascii_ratio",
+      "v2_suffix_stripped_ascii_token_set",
+      "v2_accent_stripped_name_ratio",
+      "v2_accent_stripped_address_ratio"
+    ],
+    "pairs": 5792041,
+    "references": 100000,
+    "borders_learned_from": "training gallery only",
+    "prepared_manifest_sha256": "296d949d3443fdcb54225e04284b631ccae2fac589c933ec10c013dfb63144b4",
+    "input_matrix_sha256": "ba4f00dff1e3e758783d93001ac25568a44b7159536944ec39a55fb211689c68",
+    "labels_sha256": "68e7aa05e223c3481eb92a10f64d3bb6be49abef48c2d0124cb517671e7edda3",
+    "quantized_sha256": "3f05e422406321a32b77f63ff2212ce0312154ea1aacb2f9abb8601820a87908",
+    "borders_sha256": "51a0339233e76116921f1c9cdd2ac5f94c131bfb3b55527c3c7ea0360878dad0",
+    "prepared": "/home/deep/Documents/amazon_ml_challenge/artifacts/improvement_v2/cpu/prepared_gate0_train_100k_v1",
+    "cpu_affinity": [
+      0,
+      1
+    ],
+    "quantization": {
+      "border_count": 254,
+      "feature_border_type": "GreedyLogSum",
+      "random_seed": 2026,
+      "task_type": "CPU"
+    },
+    "preflight_required_gib": 3.9597818925976753,
+    "pool_creation_rss_delta_mib": 23.9453125,
+    "elapsed_seconds": 15.081570066991844,
+    "peak_rss_mib": 3098.86328125,
+    "quantized_bytes": 451893264,
+    "used_ram_limit_is_hard_cap": false,
+    "external_data_used": false
+  },
+  "paired_delta_vs_frozen": {
+    "delta": 0.020923652229185387,
+    "ci95": [
+      0.016646276605502164,
+      0.025017613690613682
+    ],
+    "improved_references": 418,
+    "worsened_references": 86,
+    "repetitions": 3000,
+    "conditional_on_selected_model": true
+  },
+  "training_seconds": 688.0366966809961,
+  "features": [
+    "name_ratio",
+    "name_partial",
+    "name_token_sort",
+    "name_token_set",
+    "name_wratio",
+    "name_jaro_winkler",
+    "name_jaccard",
+    "name_overlap",
+    "name_trigram_jaccard",
+    "ascii_name_ratio",
+    "bare_name_ratio",
+    "name_exact",
+    "address_ratio",
+    "address_token_sort",
+    "address_token_set",
+    "address_jaccard",
+    "address_overlap",
+    "address_trigram_jaccard",
+    "ascii_address_ratio",
+    "address_exact",
+    "number_jaccard",
+    "both_have_numbers",
+    "disjoint_numbers",
+    "reference_address_missing",
+    "target_address_missing",
+    "name_length_ratio",
+    "address_length_ratio",
+    "target_is_s2",
+    "reference_name_nonascii",
+    "target_name_nonascii",
+    "retrieval_channels",
+    "best_relative_score",
+    "best_reciprocal_rank",
+    "name_word_retrieval",
+    "name_gram_retrieval",
+    "address_retrieval",
+    "combined_retrieval",
+    "ascii_retrieval",
+    "context_log_candidates",
+    "context_log_near_names",
+    "context_log_exact_names",
+    "context_log_strong_addresses",
+    "context_name_minus_best",
+    "context_address_minus_best",
+    "context_log_joint_strong_evidence",
+    "context_log_missing_address_near_names",
+    "v2_name_weighted_jaccard",
+    "v2_name_reference_coverage",
+    "v2_name_target_coverage",
+    "v2_name_max_shared_idf",
+    "v2_name_max_reference_only_idf",
+    "v2_name_max_target_only_idf",
+    "v2_ascii_name_weighted_jaccard",
+    "v2_ascii_name_reference_coverage",
+    "v2_ascii_name_target_coverage",
+    "v2_ascii_name_max_shared_idf",
+    "v2_ascii_name_max_reference_only_idf",
+    "v2_ascii_name_max_target_only_idf",
+    "v2_address_weighted_jaccard",
+    "v2_address_reference_coverage",
+    "v2_address_target_coverage",
+    "v2_address_max_shared_idf",
+    "v2_address_max_reference_only_idf",
+    "v2_address_max_target_only_idf",
+    "v2_number_jaccard",
+    "v2_number_reference_coverage",
+    "v2_number_target_coverage",
+    "v2_short_number_overlap",
+    "v2_short_number_disjoint",
+    "v2_long_number_overlap",
+    "v2_long_number_disjoint",
+    "v2_number_one_side_missing",
+    "v2_suffix_stripped_ascii_ratio",
+    "v2_suffix_stripped_ascii_token_set",
+    "v2_accent_stripped_name_ratio",
+    "v2_accent_stripped_address_ratio"
+  ],
+  "feature_importance": [
+    [
+      "v2_ascii_name_max_target_only_idf",
+      10.725162259418688
+    ],
+    [
+      "v2_address_target_coverage",
+      6.0353846154880015
+    ],
+    [
+      "best_reciprocal_rank",
+      4.674197714802234
+    ],
+    [
+      "address_token_set",
+      4.130669168584593
+    ],
+    [
+      "combined_retrieval",
+      3.7095624581314506
+    ],
+    [
+      "v2_suffix_stripped_ascii_ratio",
+      3.6303052811828995
+    ],
+    [
+      "ascii_name_ratio",
+      3.4284486499792957
+    ],
+    [
+      "address_length_ratio",
+      3.3738893305462194
+    ],
+    [
+      "v2_ascii_name_max_reference_only_idf",
+      3.363826906780249
+    ],
+    [
+      "name_length_ratio",
+      2.984869327000082
+    ],
+    [
+      "v2_address_max_target_only_idf",
+      2.87299929739632
+    ],
+    [
+      "name_partial",
+      2.7108072689509224
+    ],
+    [
+      "disjoint_numbers",
+      2.6651171590619542
+    ],
+    [
+      "v2_name_max_target_only_idf",
+      2.6442423446544066
+    ],
+    [
+      "target_is_s2",
+      2.5126407799356656
+    ],
+    [
+      "v2_address_max_shared_idf",
+      2.403355431548218
+    ],
+    [
+      "address_trigram_jaccard",
+      2.362719412363855
+    ],
+    [
+      "v2_suffix_stripped_ascii_token_set",
+      2.3405468038603385
+    ],
+    [
+      "v2_ascii_name_target_coverage",
+      2.1461681536712667
+    ],
+    [
+      "name_jaro_winkler",
+      2.0306234997848187
+    ],
+    [
+      "ascii_retrieval",
+      2.015405221114515
+    ],
+    [
+      "both_have_numbers",
+      1.7215261312318397
+    ],
+    [
+      "v2_ascii_name_max_shared_idf",
+      1.4747222269334097
+    ],
+    [
+      "name_jaccard",
+      1.4416332589852707
+    ],
+    [
+      "bare_name_ratio",
+      1.3582147975158112
+    ],
+    [
+      "name_token_sort",
+      1.3158721117742052
+    ],
+    [
+      "address_token_sort",
+      1.14765600590972
+    ],
+    [
+      "name_trigram_jaccard",
+      1.12454064976568
+    ],
+    [
+      "context_log_candidates",
+      1.0890930127497829
+    ],
+    [
+      "address_overlap",
+      0.9471347785894384
+    ],
+    [
+      "number_jaccard",
+      0.8926040820360239
+    ],
+    [
+      "name_wratio",
+      0.8412744062664965
+    ],
+    [
+      "name_ratio",
+      0.8233639284993771
+    ],
+    [
+      "name_token_set",
+      0.784566959121521
+    ],
+    [
+      "v2_name_max_shared_idf",
+      0.7471684489343574
+    ],
+    [
+      "v2_number_target_coverage",
+      0.7121596779228704
+    ],
+    [
+      "v2_accent_stripped_name_ratio",
+      0.7048976246669221
+    ],
+    [
+      "v2_address_weighted_jaccard",
+      0.7018632168295104
+    ],
+    [
+      "v2_number_reference_coverage",
+      0.6713002089553894
+    ],
+    [
+      "v2_ascii_name_reference_coverage",
+      0.6552642162079598
+    ],
+    [
+      "v2_number_jaccard",
+      0.6300824313010112
+    ],
+    [
+      "v2_ascii_name_weighted_jaccard",
+      0.5550725660135242
+    ],
+    [
+      "context_log_exact_names",
+      0.5336586646064252
+    ],
+    [
+      "address_retrieval",
+      0.511435979462225
+    ],
+    [
+      "v2_address_reference_coverage",
+      0.5111978926473845
+    ],
+    [
+      "retrieval_channels",
+      0.4030234036902286
+    ],
+    [
+      "v2_short_number_disjoint",
+      0.3948493126556605
+    ],
+    [
+      "context_log_joint_strong_evidence",
+      0.3940997274019725
+    ],
+    [
+      "context_address_minus_best",
+      0.3919596547871549
+    ],
+    [
+      "v2_address_max_reference_only_idf",
+      0.390650231786956
+    ],
+    [
+      "context_log_strong_addresses",
+      0.38653335186809656
+    ],
+    [
+      "v2_name_max_reference_only_idf",
+      0.3553009051687722
+    ],
+    [
+      "v2_name_target_coverage",
+      0.3242802058012878
+    ],
+    [
+      "context_log_near_names",
+      0.3025790941329091
+    ],
+    [
+      "ascii_address_ratio",
+      0.2969235576607282
+    ],
+    [
+      "v2_name_reference_coverage",
+      0.2842601794005746
+    ],
+    [
+      "context_name_minus_best",
+      0.1857182230119554
+    ],
+    [
+      "v2_name_weighted_jaccard",
+      0.17919472437184467
+    ],
+    [
+      "target_name_nonascii",
+      0.17669457638483163
+    ],
+    [
+      "v2_number_one_side_missing",
+      0.1715082232805821
+    ],
+    [
+      "name_overlap",
+      0.14032614043794184
+    ],
+    [
+      "v2_accent_stripped_address_ratio",
+      0.11271343447038853
+    ],
+    [
+      "address_ratio",
+      0.09141308591851165
+    ],
+    [
+      "address_jaccard",
+      0.08017493368124615
+    ],
+    [
+      "target_address_missing",
+      0.07749255594961656
+    ],
+    [
+      "name_gram_retrieval",
+      0.07453759462050095
+    ],
+    [
+      "best_relative_score",
+      0.05581824717989594
+    ],
+    [
+      "name_word_retrieval",
+      0.03259159349486849
+    ],
+    [
+      "v2_long_number_disjoint",
+      0.03152958369117118
+    ],
+    [
+      "v2_short_number_overlap",
+      0.005389762173057613
+    ],
+    [
+      "v2_long_number_overlap",
+      0.0019632847583476234
+    ],
+    [
+      "context_log_missing_address_near_names",
+      0.0012300510387437372
+    ],
+    [
+      "name_exact",
+      0.0
+    ],
+    [
+      "address_exact",
+      0.0
+    ],
+    [
+      "reference_address_missing",
+      0.0
+    ],
+    [
+      "reference_name_nonascii",
+      0.0
+    ]
+  ],
+  "model_sha256": "aa236b4c971c83b7226edfe9e39d4f80b14bcee4a0188f7ed46cb996f6e62a49",
+  "peak_rss_mib": 1613.05859375
+}

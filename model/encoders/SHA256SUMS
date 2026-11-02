@@ -1,0 +1,12 @@
+# Pinned encoder checkpoints in DeeAxe/business-entity-matching-encoders
+# (BER_HF_REVISION). Download: python scripts/fetch_encoders.py
+# Rebuild: scripts/train_encoders.sh
+# The CatBoost gate is shipped at model/gate0_100k/enhanced.cbm.
+04cd193cfcc8beb2a2b08d298149fe30399b8bdc61b4a40220aa4edfdda86cda  e5_cont1300k/model.pt
+a439e92a7f105f972e95fecfa087a11638c9da82021b02877bfe64dcc8032c0e  kA/model.pt
+6aa1bbb11154ff2d5a84cf9bc31d2ac1efab85689dae38f51b53e0a76ee79aed  kB/model.pt
+0a4f186a05cfd211d1bc79acd32ec85a34881fa824ea08689d43bc333ef8e1f4  kC/model.pt
+610484b0b966138cc5beace45c069b9479a38e874835187ce333e7fd50fd095d  kD/model.pt
+867e906b885485383a536342255c9531f2c793b20270f1d03a19ec3a974007da  kE/model.pt
+9dd4b529c53b2787175dcefa8ea03bf3fe6695555912d83ff84b6d0802c82f9b  kF/model.pt
+e91b71a63033479277a85e81b2c471ae8658d1fe49736289dbce531f585f8a2c  kG/model.pt
